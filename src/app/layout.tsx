@@ -1,15 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Anton, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const anton = Anton({
   subsets: ["latin"],
+  weight: "400",
   variable: "--font-display",
   display: "swap",
 });
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
+  weight: ["300", "400", "600"],
   variable: "--font-body",
   display: "swap",
 });
@@ -17,11 +19,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://hoteltara.vercel.app"),
   title: {
-    default: "Hotel TARA | Premium Stay in Una, Himachal Pradesh",
-    template: "%s | Hotel TARA",
+    default: "Hotel TARA — A Cinematic Stay in Una, Himachal Pradesh",
+    template: "%s · Hotel TARA",
   },
   description:
-    "Hotel TARA located at Vill. & P.O. Behdala, Nangal Road, NH 503, Una, Himachal Pradesh. Call 098167 64281 for room booking and enquiries.",
+    "Hotel TARA. A calm, editorial stay on NH 503 near Una, Himachal Pradesh. Call 098167 64281 for bookings and enquiries.",
   keywords: [
     "Hotel TARA",
     "Hotel in Una",
@@ -29,8 +31,7 @@ export const metadata: Metadata = {
     "Behdala hotel",
     "Nangal Road stay",
     "NH 503 hotel",
-    "Una Himachal booking",
-    "Family hotel Una",
+    "Boutique hotel Una",
   ],
   authors: [{ name: "Hotel TARA" }],
   openGraph: {
@@ -38,23 +39,23 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://hoteltara.vercel.app",
     siteName: "Hotel TARA",
-    title: "Hotel TARA | Premium Stay in Una, Himachal Pradesh",
+    title: "Hotel TARA — A Cinematic Stay in Una, Himachal Pradesh",
     description:
-      "Comfortable, convenient and premium stay on NH 503 near Una. Book your room today — call 098167 64281.",
+      "A calm, editorial stay on NH 503 near Una, Himachal Pradesh. Call 098167 64281.",
     images: [
       {
         url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80",
         width: 1600,
         height: 900,
-        alt: "Hotel TARA — premium stay in Himachal Pradesh",
+        alt: "Hotel TARA — Himachal Pradesh",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hotel TARA | Premium Stay in Una, Himachal Pradesh",
+    title: "Hotel TARA — A Cinematic Stay in Una, Himachal Pradesh",
     description:
-      "Comfortable, convenient and premium stay on NH 503 near Una. Call 098167 64281.",
+      "A calm, editorial stay on NH 503 near Una, Himachal Pradesh.",
     images: [
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80",
     ],
@@ -64,7 +65,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1F3D2B",
+  themeColor: "#171e19",
   width: "device-width",
   initialScale: 1,
 };
@@ -74,7 +75,7 @@ const jsonLd = {
   "@type": "Hotel",
   name: "Hotel TARA",
   description:
-    "Hotel TARA — comfortable stay on NH 503, Nangal Road near Una, Himachal Pradesh.",
+    "Hotel TARA — a cinematic, comfortable stay on NH 503 near Una, Himachal Pradesh.",
   telephone: "+91-9816764281",
   url: "https://hoteltara.vercel.app",
   image:
@@ -102,14 +103,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="en" className={`${anton.variable} ${jakarta.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="bg-navy text-white antialiased">{children}</body>
     </html>
   );
 }

@@ -1,14 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  ExternalLink,
-  MapPin,
-  MessageCircle,
-  Phone,
-  Send,
-} from "lucide-react";
 import { useState } from "react";
+import Reveal from "./Reveal";
 import { site, waLink } from "@/lib/site";
 
 export default function Contact() {
@@ -21,7 +14,7 @@ export default function Contact() {
     message: "",
   });
 
-  const handleChange =
+  const handle =
     (key: keyof typeof form) =>
     (
       e: React.ChangeEvent<
@@ -30,7 +23,7 @@ export default function Contact() {
     ) =>
       setForm((prev) => ({ ...prev, [key]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const msg =
       `Hello Hotel TARA, I'd like to make an enquiry.%0A` +
@@ -44,202 +37,176 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section-py bg-sand/60">
-      <div className="container-px mx-auto max-w-7xl">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow">Contact</span>
-          <h2 className="heading">Get in touch — we&apos;d love to host you</h2>
-          <p className="mt-4 text-charcoal/70">
-            Reach out by phone, WhatsApp or fill the enquiry form. We respond
-            quickly and will help plan your stay.
+    <section id="contact" className="bg-navy py-24 md:py-36">
+      <div className="frame grid gap-16 lg:grid-cols-12 lg:gap-20">
+        {/* Left — editorial heading & direct lines */}
+        <Reveal className="lg:col-span-5">
+          <p className="eyebrow">Reservations</p>
+          <h2
+            className="display mt-6 text-white"
+            style={{ fontSize: "clamp(48px, 6.5vw, 104px)" }}
+          >
+            Plan
+            <br />
+            your
+            <br />
+            stay.
+          </h2>
+          <p className="mt-8 max-w-sm text-[15px] font-light leading-[1.8] text-taupe">
+            Share a few details and we&apos;ll reply on WhatsApp — usually
+            within the hour.
           </p>
-        </div>
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-5">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
-            className="card p-7 lg:col-span-2"
-          >
-            <h3 className="font-serif text-2xl text-charcoal">Hotel TARA</h3>
-            <p className="mt-1 text-sm text-charcoal/70">
-              Premium stay in Himachal Pradesh
-            </p>
-
-            <div className="mt-6 space-y-5">
-              <div className="flex items-start gap-3">
-                <div className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-forest text-cream">
-                  <MapPin className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-forest/70">
-                    Address
-                  </p>
-                  <p className="mt-1 text-charcoal">{site.address}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-forest text-cream">
-                  <Phone className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-forest/70">
-                    Phone
-                  </p>
-                  <a
-                    href={`tel:${site.phoneTel}`}
-                    className="mt-1 block text-charcoal hover:text-forest"
-                  >
-                    {site.phoneDisplay}
-                  </a>
-                </div>
-              </div>
+          <dl className="mt-12 space-y-6">
+            <div>
+              <dt className="label">Phone</dt>
+              <dd className="mt-2">
+                <a
+                  href={`tel:${site.phoneTel}`}
+                  className="font-display text-2xl uppercase tracking-widest text-white transition-colors ease-cinema hover:text-sage"
+                >
+                  {site.phoneDisplay}
+                </a>
+              </dd>
             </div>
-
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href={`tel:${site.phoneTel}`} className="btn-primary">
-                <Phone className="h-4 w-4" />
-                Call Now
-              </a>
-              <a
-                href={waLink("Hello Hotel TARA, I'd like to make an enquiry.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-gold"
-              >
-                <MessageCircle className="h-4 w-4" />
-                WhatsApp
-              </a>
-              <a
-                href={site.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline"
-              >
-                <ExternalLink className="h-4 w-4" />
-                Open Maps
-              </a>
+            <div>
+              <dt className="label">Address</dt>
+              <dd className="mt-2 text-[15px] font-light leading-[1.8] text-white/80">
+                {site.address}
+              </dd>
             </div>
-          </motion.div>
+            <div>
+              <dt className="label">Hours</dt>
+              <dd className="mt-2 text-[15px] font-light text-white/80">
+                Reception open 24 hours
+              </dd>
+            </div>
+          </dl>
 
-          <motion.form
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="card p-7 lg:col-span-3"
+          <div className="mt-10 flex flex-wrap gap-6">
+            <a
+              href={waLink("Hello Hotel TARA, I'd like to make an enquiry.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost"
+            >
+              WhatsApp Us
+            </a>
+            <a
+              href={site.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-arrow text-white"
+            >
+              <span>Open in Maps</span>
+              <span className="arrow">→</span>
+            </a>
+          </div>
+        </Reveal>
+
+        {/* Right — dark editorial form */}
+        <Reveal delay={0.12} className="lg:col-span-7">
+          <form
+            onSubmit={submit}
+            aria-label="Enquiry form"
+            className="border-t border-white/10 pt-10"
           >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Name">
+            <div className="grid gap-8 sm:grid-cols-2">
+              <div>
+                <label htmlFor="c-name" className="input-dark-label">
+                  01 / Name
+                </label>
                 <input
+                  id="c-name"
                   required
                   type="text"
-                  value={form.name}
-                  onChange={handleChange("name")}
                   placeholder="Your full name"
-                  className="input"
+                  value={form.name}
+                  onChange={handle("name")}
+                  className="input-dark"
                 />
-              </Field>
-              <Field label="Phone">
+              </div>
+              <div>
+                <label htmlFor="c-phone" className="input-dark-label">
+                  02 / Phone
+                </label>
                 <input
+                  id="c-phone"
                   required
                   type="tel"
-                  value={form.phone}
-                  onChange={handleChange("phone")}
                   placeholder="+91 98000 00000"
-                  className="input"
+                  value={form.phone}
+                  onChange={handle("phone")}
+                  className="input-dark"
                 />
-              </Field>
-              <Field label="Check-in">
+              </div>
+              <div>
+                <label htmlFor="c-in" className="input-dark-label">
+                  03 / Check-in
+                </label>
                 <input
+                  id="c-in"
                   type="date"
                   value={form.checkIn}
-                  onChange={handleChange("checkIn")}
-                  className="input"
+                  onChange={handle("checkIn")}
+                  className="input-dark"
                 />
-              </Field>
-              <Field label="Check-out">
+              </div>
+              <div>
+                <label htmlFor="c-out" className="input-dark-label">
+                  04 / Check-out
+                </label>
                 <input
+                  id="c-out"
                   type="date"
                   value={form.checkOut}
-                  onChange={handleChange("checkOut")}
-                  className="input"
+                  onChange={handle("checkOut")}
+                  className="input-dark"
                 />
-              </Field>
-              <Field label="Guests">
+              </div>
+              <div>
+                <label htmlFor="c-guests" className="input-dark-label">
+                  05 / Guests
+                </label>
                 <select
+                  id="c-guests"
                   value={form.guests}
-                  onChange={handleChange("guests")}
-                  className="input"
+                  onChange={handle("guests")}
+                  className="input-dark"
                 >
-                  <option value="1">1 Guest</option>
-                  <option value="2">2 Guests</option>
-                  <option value="3">3 Guests</option>
-                  <option value="4">4 Guests</option>
-                  <option value="5+">5+ Guests</option>
+                  <option value="1" className="bg-navy text-white">1 Guest</option>
+                  <option value="2" className="bg-navy text-white">2 Guests</option>
+                  <option value="3" className="bg-navy text-white">3 Guests</option>
+                  <option value="4" className="bg-navy text-white">4 Guests</option>
+                  <option value="5+" className="bg-navy text-white">5+ Guests</option>
                 </select>
-              </Field>
-              <Field label="Message" className="sm:col-span-2">
+              </div>
+              <div className="sm:col-span-2">
+                <label htmlFor="c-msg" className="input-dark-label">
+                  06 / Message
+                </label>
                 <textarea
-                  rows={4}
+                  id="c-msg"
+                  rows={3}
                   value={form.message}
-                  onChange={handleChange("message")}
+                  onChange={handle("message")}
                   placeholder="Any special requests or questions?"
-                  className="input resize-none"
+                  className="input-dark resize-none"
                 />
-              </Field>
+              </div>
             </div>
-            <button type="submit" className="btn-primary mt-5 w-full sm:w-auto">
-              <Send className="h-4 w-4" />
-              Send Enquiry via WhatsApp
-            </button>
-            <p className="mt-3 text-xs text-charcoal/60">
-              On submit we&apos;ll open WhatsApp with your enquiry pre-filled —
-              no account or sign-up required.
-            </p>
-          </motion.form>
-        </div>
+
+            <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-8">
+              <p className="label max-w-xs text-taupe">
+                On submit we&apos;ll open WhatsApp with your enquiry pre-filled.
+              </p>
+              <button type="submit" className="btn-ghost">
+                Send Enquiry
+              </button>
+            </div>
+          </form>
+        </Reveal>
       </div>
-
-      <style jsx>{`
-        .input {
-          width: 100%;
-          border-radius: 14px;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          background: #fff;
-          padding: 12px 14px;
-          font-size: 14px;
-          color: #1c1c1e;
-          outline: none;
-          transition: border-color 0.15s, box-shadow 0.15s;
-        }
-        .input:focus {
-          border-color: #1f3d2b;
-          box-shadow: 0 0 0 3px rgba(31, 61, 43, 0.15);
-        }
-      `}</style>
     </section>
-  );
-}
-
-function Field({
-  label,
-  children,
-  className = "",
-}: {
-  label: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <label className={`block ${className}`}>
-      <span className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-forest/70">
-        {label}
-      </span>
-      {children}
-    </label>
   );
 }

@@ -1,140 +1,59 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Phone, Send, MessageCircle, Star } from "lucide-react";
-import { useState } from "react";
-import { site, waLink } from "@/lib/site";
+import { ArrowDown } from "lucide-react";
+import AmbientOrbs from "./AmbientOrbs";
 
 export default function Hero() {
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState("2");
-
-  const enquiryMessage = () =>
-    `Hello Hotel TARA, I'd like to enquire about a stay.%0A` +
-    `Check-in: ${checkIn || "-"}%0A` +
-    `Check-out: ${checkOut || "-"}%0A` +
-    `Guests: ${guests}`;
-
   return (
     <section
-      id="home"
-      className="relative min-h-[100svh] w-full overflow-hidden bg-cream pt-24 md:pt-28"
+      id="top"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-navy crosshair"
     >
-      <div className="absolute inset-0 -z-10">
-        <img
-          src="https://images.unsplash.com/photo-1501117716987-c8e1ecb2100f?auto=format&fit=crop&w=1920&q=80"
-          alt="Mountain resort view near Una, Himachal Pradesh"
-          className="h-full w-full object-cover"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src =
-              "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80";
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/60 via-charcoal/35 to-cream" />
+      <AmbientOrbs />
+
+      {/* Top meta strip (sits under the fixed nav) */}
+      <div className="relative z-10 flex items-center justify-between px-6 pt-28 md:px-10 md:pt-32 lg:px-16 lg:pt-36">
+        <p className="label">Est. · Behdala, Una — Himachal Pradesh</p>
+        <p className="hidden label md:block">NH 503 · 174306</p>
       </div>
 
-      <div className="container-px mx-auto flex max-w-7xl flex-col gap-10 pb-12 pt-10 md:pb-20 md:pt-20">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
+      {/* Centered massive headline */}
+      <div className="relative z-10 flex flex-1 items-center justify-center px-4">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="max-w-3xl text-cream"
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="display select-none text-center text-white"
+          style={{ fontSize: "clamp(88px, 18vw, 320px)", lineHeight: 0.85 }}
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-cream/30 bg-white/10 px-4 py-1.5 text-xs font-medium tracking-widest text-cream backdrop-blur">
-            <Star className="h-3.5 w-3.5 fill-gold text-gold" />
-            PREMIUM STAY · HIMACHAL PRADESH
-          </span>
-          <h1 className="mt-5 font-serif text-4xl leading-[1.1] md:text-6xl lg:text-7xl">
-            Welcome to <span className="text-gold-light">Hotel TARA</span>
-          </h1>
-          <p className="mt-5 flex items-start gap-2 text-base text-cream/90 md:text-lg">
-            <MapPin className="mt-1 h-5 w-5 shrink-0 text-gold-light" />
-            <span>
-              Vill. &amp; P.O. Behdala, Nangal Road, NH 503, Una, Himachal
-              Pradesh 174306
-            </span>
-          </p>
-          <p className="mt-4 max-w-2xl text-cream/80">
-            A calm, comfortable stay on the highway — rooms designed for
-            travellers, families and weekend visits through the hills.
-          </p>
+          <span className="block">TARA</span>
+          <span className="text-outline block">Hotel</span>
+        </motion.h1>
+      </div>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <a href={`tel:${site.phoneTel}`} className="btn-gold">
-              <Phone className="h-4 w-4" />
-              Call Now
-            </a>
-            <a
-              href={waLink(
-                "Hello Hotel TARA, I'd like to make a booking enquiry."
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-outline !border-cream/40 !bg-white/10 !text-cream hover:!bg-cream hover:!text-forest"
-            >
-              <MessageCircle className="h-4 w-4" />
-              WhatsApp Enquiry
-            </a>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
+      {/* Bottom row */}
+      <div className="relative z-10 flex items-end justify-between gap-6 px-6 pb-10 md:px-10 md:pb-14 lg:px-16 lg:pb-16">
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.25, ease: "easeOut" }}
-          className="card mt-auto grid grid-cols-1 gap-4 p-5 sm:p-6 md:grid-cols-5 md:items-end"
+          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="label max-w-[320px] text-taupe leading-[1.8]"
         >
-          <div className="md:col-span-1">
-            <label className="mb-2 block text-xs font-semibold uppercase tracking-widest text-forest/80">
-              Check-in
-            </label>
-            <input
-              type="date"
-              value={checkIn}
-              onChange={(e) => setCheckIn(e.target.value)}
-              className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-charcoal outline-none transition focus:border-forest"
-            />
-          </div>
-          <div className="md:col-span-1">
-            <label className="mb-2 block text-xs font-semibold uppercase tracking-widest text-forest/80">
-              Check-out
-            </label>
-            <input
-              type="date"
-              value={checkOut}
-              onChange={(e) => setCheckOut(e.target.value)}
-              className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-charcoal outline-none transition focus:border-forest"
-            />
-          </div>
-          <div className="md:col-span-1">
-            <label className="mb-2 block text-xs font-semibold uppercase tracking-widest text-forest/80">
-              Guests
-            </label>
-            <select
-              value={guests}
-              onChange={(e) => setGuests(e.target.value)}
-              className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-charcoal outline-none transition focus:border-forest"
-            >
-              <option value="1">1 Guest</option>
-              <option value="2">2 Guests</option>
-              <option value="3">3 Guests</option>
-              <option value="4">4 Guests</option>
-              <option value="5+">5+ Guests</option>
-            </select>
-          </div>
-          <div className="md:col-span-2">
-            <a
-              href={`https://wa.me/${site.whatsapp}?text=${enquiryMessage()}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary w-full !py-3.5 text-base"
-            >
-              <Send className="h-4 w-4" />
-              Send Enquiry
-            </a>
-          </div>
-        </motion.div>
+          A calm, editorial stay on the highway to Himachal — intentional rooms,
+          warm hospitality, cinematic quiet.
+        </motion.p>
+
+        <motion.a
+          href="#stays"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          aria-label="Scroll to Selected Works"
+          className="group inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/40 text-white transition-colors duration-700 ease-cinema hover:border-sage hover:text-sage md:h-16 md:w-16"
+        >
+          <ArrowDown className="h-5 w-5 animate-bounce-slow" />
+        </motion.a>
       </div>
     </section>
   );

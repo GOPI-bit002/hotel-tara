@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import AmbientOrbs from "@/components/AmbientOrbs";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -9,151 +11,79 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#e5e5e5",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "32px 16px",
-        fontFamily: '"Times New Roman", Times, serif',
-        color: "#000000",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "560px",
-        }}
-      >
-        <section
-          aria-labelledby="error-title"
-          style={{
-            backgroundColor: "#ffffff",
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-            padding: "48px 48px",
-          }}
-        >
-          <p
-            style={{
-              margin: 0,
-              fontSize: "14px",
-              color: "#666666",
-              letterSpacing: "normal",
-            }}
-          >
-            Error 404
-          </p>
+    <main className="relative flex min-h-screen flex-col overflow-hidden bg-navy">
+      <AmbientOrbs />
 
-          <h1
-            id="error-title"
-            style={{
-              margin: "16px 0 8px",
-              fontSize: "32px",
-              fontWeight: 400,
-              lineHeight: 1.25,
-              color: "#000000",
-            }}
-          >
-            Page not found
-          </h1>
+      <div className="relative z-10 flex flex-1 items-center">
+        <div className="frame w-full">
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-16">
+            <div className="lg:col-span-7">
+              <p className="label">Error · 404</p>
+              <h1
+                className="display mt-6 text-white"
+                style={{ fontSize: "clamp(96px, 18vw, 360px)" }}
+              >
+                404
+              </h1>
+              <p className="label mt-4 text-taupe">
+                <span className="text-outline-thick font-display">
+                  Page&nbsp;Not&nbsp;Found
+                </span>
+              </p>
+            </div>
 
-          <p
-            style={{
-              margin: "0 0 32px",
-              fontSize: "16px",
-              lineHeight: 1.6,
-              color: "#666666",
-              fontWeight: 400,
-            }}
-          >
-            The page you are looking for has moved or no longer exists. You can
-            return to the homepage or reach out to us for help planning your
-            stay.
-          </p>
+            <div className="lg:col-span-5">
+              <p className="max-w-md text-[15px] font-light leading-[1.8] text-white/70">
+                The page you are looking for has moved or no longer exists. You
+                can return to the homepage, or call us — we&apos;re happy to
+                help plan your stay.
+              </p>
 
-          <dl
-            style={{
-              margin: "0 0 32px",
-              padding: "24px 0",
-              borderTop: "1px solid #e5e5e5",
-              borderBottom: "1px solid #e5e5e5",
-              display: "grid",
-              rowGap: "12px",
-            }}
-          >
-            <Row label="Reference" value="404-NOT-FOUND" />
-            <Row label="Location" value="Behdala, Una, Himachal Pradesh" />
-            <Row label="Phone" value={site.phoneDisplay} />
-          </dl>
+              <dl className="mt-10 space-y-6 border-t border-white/10 pt-8">
+                <div>
+                  <dt className="label">Reference</dt>
+                  <dd className="mt-2 font-display text-lg uppercase tracking-widest text-sage">
+                    404-NOT-FOUND
+                  </dd>
+                </div>
+                <div>
+                  <dt className="label">Direct line</dt>
+                  <dd className="mt-2">
+                    <a
+                      href={`tel:${site.phoneTel}`}
+                      className="font-display text-2xl uppercase tracking-widest text-white hover:text-sage"
+                    >
+                      {site.phoneDisplay}
+                    </a>
+                  </dd>
+                </div>
+              </dl>
 
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "24px",
-              alignItems: "center",
-            }}
-          >
-            <a href="/" style={linkStyle}>
-              Return to homepage
-            </a>
-            <a href={`tel:${site.phoneTel}`} style={linkStyle}>
-              Call Hotel TARA
-            </a>
+              <div className="mt-10 flex flex-wrap gap-6">
+                <Link href="/" className="btn-ghost">
+                  Return Home
+                </Link>
+                <a
+                  href={`tel:${site.phoneTel}`}
+                  className="group inline-flex items-center gap-3 text-[12px] uppercase tracking-super-wide text-white"
+                >
+                  <span>Call Hotel TARA</span>
+                  <span className="inline-block transition-transform duration-700 ease-cinema group-hover:translate-x-2">
+                    →
+                  </span>
+                </a>
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
+      </div>
 
-        <p
-          style={{
-            margin: "24px 0 0",
-            textAlign: "center",
-            fontSize: "12px",
-            color: "#666666",
-            fontWeight: 400,
-          }}
-        >
-          Powered by Hotel TARA · Una, Himachal Pradesh
-        </p>
+      <div className="relative z-10 border-t border-white/10">
+        <div className="frame flex items-center justify-between py-6 text-[11px] uppercase tracking-super-wide text-taupe">
+          <p>Hotel TARA · Una · Himachal Pradesh</p>
+          <p>174306</p>
+        </div>
       </div>
     </main>
-  );
-}
-
-const linkStyle: React.CSSProperties = {
-  fontSize: "16px",
-  color: "#4285f4",
-  textDecoration: "none",
-  fontWeight: 400,
-  fontFamily: '"Times New Roman", Times, serif',
-};
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-        gap: "16px",
-      }}
-    >
-      <dt style={{ fontSize: "14px", color: "#666666", fontWeight: 400 }}>
-        {label}
-      </dt>
-      <dd
-        style={{
-          margin: 0,
-          fontSize: "14px",
-          color: "#000000",
-          fontWeight: 400,
-          textAlign: "right",
-        }}
-      >
-        {value}
-      </dd>
-    </div>
   );
 }

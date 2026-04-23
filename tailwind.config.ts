@@ -5,31 +5,52 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: "#FAF7F2",
-        sand: "#F1ECE3",
-        forest: {
-          DEFAULT: "#1F3D2B",
-          dark: "#16301F",
-          light: "#2C5A3F",
-        },
-        gold: {
-          DEFAULT: "#C8A96A",
-          light: "#E4CFA1",
-          dark: "#A0824B",
-        },
-        charcoal: "#1C1C1E",
-        mist: "#E8E2D6",
+        navy: "#171e19",
+        sage: "#b7c6c2",
+        taupe: "#9f8d8b",
+        beige: "#d7c5b2",
+        cyan: "#d5f4f9",
+        softblue: "#bbe2f5",
+        charcoal: "#302b2f",
+        bone: "#fafafa",
       },
       fontFamily: {
-        serif: ["var(--font-display)", "serif"],
-        sans: ["var(--font-body)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Anton", "Impact", "sans-serif"],
+        sans: [
+          "var(--font-body)",
+          "Plus Jakarta Sans",
+          "system-ui",
+          "-apple-system",
+          "sans-serif",
+        ],
       },
-      boxShadow: {
-        soft: "0 10px 40px -10px rgba(28,28,30,0.12)",
-        card: "0 20px 50px -20px rgba(28,28,30,0.18)",
+      maxWidth: {
+        frame: "1440px",
       },
-      borderRadius: {
-        xl2: "1.25rem",
+      transitionTimingFunction: {
+        cinema: "cubic-bezier(0.16, 1, 0.3, 1)",
+      },
+      keyframes: {
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-20px)" },
+        },
+        floatLong: {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "50%": { transform: "translate(12px, -24px)" },
+        },
+        bounceSlow: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(6px)" },
+        },
+      },
+      animation: {
+        float: "float 6s ease-in-out infinite",
+        "float-long": "floatLong 9s ease-in-out infinite",
+        "bounce-slow": "bounceSlow 2s ease-in-out infinite",
+      },
+      letterSpacing: {
+        "super-wide": "0.22em",
       },
     },
   },

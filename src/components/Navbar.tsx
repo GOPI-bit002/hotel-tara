@@ -1,115 +1,118 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { site } from "@/lib/site";
 
 const links = [
-  { href: "#home", label: "Home" },
-  { href: "#rooms", label: "Rooms" },
-  { href: "#amenities", label: "Amenities" },
+  { href: "#stays", label: "Stays" },
+  { href: "#featured", label: "Featured" },
+  { href: "#capabilities", label: "Capabilities" },
   { href: "#gallery", label: "Gallery" },
   { href: "#location", label: "Location" },
-  { href: "#contact", label: "Contact" },
+  { href: "#stories", label: "Stories" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
+  // Lock scroll when mobile menu is open
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <motion.header
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed inset-x-0 top-0 z-50 transition-all ${
-        scrolled
-          ? "bg-cream/85 shadow-soft backdrop-blur-md"
-          : "bg-transparent"
-      }`}
-    >
-      <nav className="container-px mx-auto flex h-16 max-w-7xl items-center justify-between md:h-20">
-        <a href="#home" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-forest text-cream">
-            <span className="font-serif text-lg">T</span>
-          </span>
-          <span className="font-serif text-xl tracking-wide text-charcoal md:text-2xl">
-            Hotel <span className="text-forest">TARA</span>
-          </span>
-        </a>
+    <>
+      <header
+        className="fixed inset-x-0 top-0 z-50 mix-blend-difference"
+        style={{ mixBlendMode: "difference" }}
+      >
+        <nav className="flex items-center justify-between px-6 py-6 md:px-10 md:py-8 lg:px-16 lg:py-10">
+          <a
+            href="#top"
+            className="font-display text-2xl uppercase tracking-widest text-white"
+            aria-label="Hotel TARA — home"
+          >
+            TARA
+          </a>
 
-        <ul className="hidden items-center gap-8 lg:flex">
-          {links.map((l) => (
-            <li key={l.href}>
+          <ul className="hidden items-center gap-10 lg:flex">
+            {links.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  className="text-[12px] uppercase tracking-super-wide text-white/90 transition-colors duration-500 ease-cinema hover:text-white"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center gap-4">
+            <a
+              href={`tel:${site.phoneTel}`}
+              className="hidden text-[12px] uppercase tracking-super-wide text-white md:inline"
+            >
+              {site.phoneDisplay}
+            </a>
+            <a href="#contact" className="btn-ghost hidden sm:inline-flex">
+              Get in Touch
+            </a>
+            <button
+              type="button"
+              aria-expanded={open}
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((v) => !v)}
+              className="inline-flex h-10 w-10 items-center justify-center border border-white text-white lg:hidden"
+            >
+              {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* Mobile overlay — not mix-blend-difference so it's readable */}
+      {open && (
+        <div className="fixed inset-0 z-40 bg-navy pt-24 lg:hidden">
+          <ul className="frame flex flex-col gap-6 pt-10">
+            {links.map((l, i) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="group flex items-baseline gap-6"
+                >
+                  <span className="label text-taupe">{`0${i + 1}`}</span>
+                  <span className="font-display text-5xl uppercase tracking-tight text-white transition-colors ease-cinema group-hover:text-sage">
+                    {l.label}
+                  </span>
+                </a>
+              </li>
+            ))}
+            <li className="mt-8 border-t border-white/10 pt-8">
               <a
-                href={l.href}
-                className="text-sm font-medium text-charcoal/80 transition hover:text-forest"
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="btn-ghost"
               >
-                {l.label}
+                Get in Touch
               </a>
             </li>
-          ))}
-        </ul>
-
-        <div className="flex items-center gap-3">
-          <a
-            href={`tel:${site.phoneTel}`}
-            className="hidden md:inline-flex btn-primary"
-          >
-            <Phone className="h-4 w-4" />
-            Call Now
-          </a>
-          <a
-            href={`tel:${site.phoneTel}`}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-forest text-cream md:hidden"
-            aria-label="Call Hotel TARA"
-          >
-            <Phone className="h-4 w-4" />
-          </a>
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-forest/20 bg-white/60 text-forest lg:hidden"
-            aria-label="Toggle menu"
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            <li className="mt-3">
+              <a
+                href={`tel:${site.phoneTel}`}
+                className="text-[12px] uppercase tracking-super-wide text-sage"
+              >
+                {site.phoneDisplay}
+              </a>
+            </li>
+          </ul>
         </div>
-      </nav>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t border-black/5 bg-cream/95 backdrop-blur lg:hidden"
-          >
-            <ul className="container-px mx-auto flex max-w-7xl flex-col gap-1 py-4">
-              {links.map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    onClick={() => setOpen(false)}
-                    className="block rounded-xl px-3 py-3 text-base font-medium text-charcoal/90 transition hover:bg-sand hover:text-forest"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+      )}
+    </>
   );
 }

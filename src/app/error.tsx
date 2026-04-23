@@ -1,9 +1,8 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-// rest of your code...
-
+import Link from "next/link";
 import { useEffect } from "react";
+import AmbientOrbs from "@/components/AmbientOrbs";
 import { site } from "@/lib/site";
 
 export default function Error({
@@ -21,149 +20,75 @@ export default function Error({
   const incidentId = error.digest ?? "UNKNOWN";
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#e5e5e5",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "32px 16px",
-        fontFamily: '"Times New Roman", Times, serif',
-        color: "#000000",
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: "560px" }}>
-        <section
-          aria-labelledby="error-title"
-          style={{
-            backgroundColor: "#ffffff",
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-            padding: "48px 48px",
-          }}
-        >
-          <p style={{ margin: 0, fontSize: "14px", color: "#666666" }}>
-            Error 500
-          </p>
+    <main className="relative flex min-h-screen flex-col overflow-hidden bg-navy">
+      <AmbientOrbs colors={["#d5f4f9", "#9f8d8b"]} />
 
-          <h1
-            id="error-title"
-            style={{
-              margin: "16px 0 8px",
-              fontSize: "32px",
-              fontWeight: 400,
-              lineHeight: 1.25,
-            }}
-          >
-            Something went wrong
-          </h1>
+      <div className="relative z-10 flex flex-1 items-center">
+        <div className="frame w-full">
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-16">
+            <div className="lg:col-span-7">
+              <p className="label">Error · 500</p>
+              <h1
+                className="display mt-6 text-white"
+                style={{ fontSize: "clamp(72px, 14vw, 280px)" }}
+              >
+                Something
+                <br />
+                <span className="text-outline-thick">went wrong.</span>
+              </h1>
+            </div>
 
-          <p
-            style={{
-              margin: "0 0 32px",
-              fontSize: "16px",
-              lineHeight: 1.6,
-              color: "#666666",
-              fontWeight: 400,
-            }}
-          >
-            An unexpected issue occurred while loading this page. You can try
-            again, or contact us directly to plan your stay at Hotel TARA.
-          </p>
+            <div className="lg:col-span-5">
+              <p className="max-w-md text-[15px] font-light leading-[1.8] text-white/70">
+                An unexpected issue occurred while loading this page. Try again,
+                or reach out to us directly — we&apos;re happy to help.
+              </p>
 
-          <dl
-            style={{
-              margin: "0 0 32px",
-              padding: "24px 0",
-              borderTop: "1px solid #e5e5e5",
-              borderBottom: "1px solid #e5e5e5",
-              display: "grid",
-              rowGap: "12px",
-            }}
-          >
-            <Row label="Incident ID" value={incidentId} />
-            <Row label="Reference" value="500-SERVER-ERROR" />
-            <Row label="Phone" value={site.phoneDisplay} />
-          </dl>
+              <dl className="mt-10 space-y-6 border-t border-white/10 pt-8">
+                <div>
+                  <dt className="label">Incident ID</dt>
+                  <dd className="mt-2 break-all font-display text-lg uppercase tracking-widest text-sage">
+                    {incidentId}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="label">Direct line</dt>
+                  <dd className="mt-2">
+                    <a
+                      href={`tel:${site.phoneTel}`}
+                      className="font-display text-2xl uppercase tracking-widest text-white hover:text-sage"
+                    >
+                      {site.phoneDisplay}
+                    </a>
+                  </dd>
+                </div>
+              </dl>
 
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "24px",
-              alignItems: "center",
-            }}
-          >
-            <button onClick={() => reset()} style={buttonAsLink}>
-              Try again
-            </button>
-            <a href="/" style={linkStyle}>
-              Return to homepage
-            </a>
-            <a href={`tel:${site.phoneTel}`} style={linkStyle}>
-              Call Hotel TARA
-            </a>
+              <div className="mt-10 flex flex-wrap gap-6">
+                <button type="button" onClick={() => reset()} className="btn-ghost">
+                  Try Again
+                </button>
+                <Link
+                  href="/"
+                  className="group inline-flex items-center gap-3 text-[12px] uppercase tracking-super-wide text-white"
+                >
+                  <span>Return Home</span>
+                  <span className="inline-block transition-transform duration-700 ease-cinema group-hover:translate-x-2">
+                    →
+                  </span>
+                </Link>
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
+      </div>
 
-        <p
-          style={{
-            margin: "24px 0 0",
-            textAlign: "center",
-            fontSize: "12px",
-            color: "#666666",
-            fontWeight: 400,
-          }}
-        >
-          Powered by Hotel TARA · Una, Himachal Pradesh
-        </p>
+      <div className="relative z-10 border-t border-white/10">
+        <div className="frame flex items-center justify-between py-6 text-[11px] uppercase tracking-super-wide text-taupe">
+          <p>Hotel TARA · Una · Himachal Pradesh</p>
+          <p>500-SERVER-ERROR</p>
+        </div>
       </div>
     </main>
-  );
-}
-
-const linkStyle: React.CSSProperties = {
-  fontSize: "16px",
-  color: "#4285f4",
-  textDecoration: "none",
-  fontWeight: 400,
-  fontFamily: '"Times New Roman", Times, serif',
-};
-
-const buttonAsLink: React.CSSProperties = {
-  ...linkStyle,
-  background: "transparent",
-  border: "none",
-  padding: 0,
-  cursor: "pointer",
-};
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-        gap: "16px",
-      }}
-    >
-      <dt style={{ fontSize: "14px", color: "#666666", fontWeight: 400 }}>
-        {label}
-      </dt>
-      <dd
-        style={{
-          margin: 0,
-          fontSize: "14px",
-          color: "#000000",
-          fontWeight: 400,
-          textAlign: "right",
-          wordBreak: "break-all",
-        }}
-      >
-        {value}
-      </dd>
-    </div>
   );
 }

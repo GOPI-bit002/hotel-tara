@@ -1,72 +1,121 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Quote, Star } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import Reveal from "./Reveal";
 
-const reviews = [
+type Story = {
+  text: string;
+  name: string;
+  role: string;
+  initials: string;
+  avatarBg: string;
+};
+
+const stories: Story[] = [
   {
+    text:
+      "A genuinely restful stop on the road through Himachal. Warm, simple, and calmly premium.",
     name: "Amit Sharma",
-    role: "Traveller",
-    text: "Clean, calm and friendly. We stayed on our way through Himachal and the service was genuinely warm. A comfortable break from the road.",
+    role: "Traveller · New Delhi",
+    initials: "AS",
+    avatarBg: "#d7c5b2", // beige
   },
   {
+    text:
+      "Lovely rooms for the family. The staff were polite and helpful, and the highway location made the whole trip easier to plan.",
     name: "Neha Verma",
-    role: "Family stay",
-    text: "Lovely rooms for the family. The staff were polite and helpful, and the location on the highway made our trip very easy to plan.",
+    role: "Family stay · Chandigarh",
+    initials: "NV",
+    avatarBg: "#b7c6c2", // sage
   },
   {
+    text:
+      "Quiet room, fast check-in, good food on request. Exactly the kind of stay I want on work trips. Will return.",
     name: "Rajiv Thakur",
-    role: "Business visit",
-    text: "Stayed overnight for work. Quiet room, fast check-in and good food on request. Would happily return on my next trip to Una.",
+    role: "Business · Shimla",
+    initials: "RT",
+    avatarBg: "#bbe2f5", // soft blue
   },
 ];
 
 export default function Testimonials() {
-  return (
-    <section className="section-py bg-forest text-cream">
-      <div className="container-px mx-auto max-w-7xl">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.22em] text-gold-light">
-            Guest Stories
-          </span>
-          <h2 className="font-serif text-3xl leading-tight md:text-5xl">
-            Kind words from our guests
-          </h2>
-          <p className="mt-4 text-cream/80">
-            Real thoughts from travellers who made Hotel TARA a part of their
-            journey.
-          </p>
-        </div>
+  const [index, setIndex] = useState(0);
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {reviews.map((r, i) => (
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % stories.length);
+    }, 7000);
+    return () => clearInterval(id);
+  }, []);
+
+  const active = stories[index];
+
+  return (
+    <section
+      id="stories"
+      className="relative overflow-hidden bg-charcoal py-24 md:py-36"
+    >
+      {/* Giant decorative quotation mark */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display leading-none text-navy"
+        style={{ fontSize: "clamp(18rem, 40vw, 30rem)", opacity: 0.3 }}
+      >
+        &ldquo;
+      </span>
+
+      <div className="frame relative">
+        <Reveal className="text-center">
+          <p className="eyebrow">Guest Stories</p>
+        </Reveal>
+
+        <div className="relative mx-auto mt-12 max-w-4xl text-center">
+          <AnimatePresence mode="wait">
             <motion.blockquote
-              key={r.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="rounded-xl2 bg-white/5 p-7 ring-1 ring-white/10 backdrop-blur"
+              key={index}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="display text-white"
+              style={{ fontSize: "clamp(28px, 3.6vw, 60px)", lineHeight: 1.1 }}
             >
-              <Quote className="h-7 w-7 text-gold-light" />
-              <p className="mt-4 text-base leading-relaxed text-cream/90">
-                “{r.text}”
-              </p>
-              <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
-                <div>
-                  <p className="font-serif text-lg text-cream">{r.name}</p>
-                  <p className="text-xs uppercase tracking-widest text-cream/60">
-                    {r.role}
-                  </p>
-                </div>
-                <div className="flex items-center gap-0.5 text-gold-light">
-                  {Array.from({ length: 5 }).map((_, k) => (
-                    <Star key={k} className="h-4 w-4 fill-gold-light" />
-                  ))}
-                </div>
-              </div>
+              &ldquo;{active.text}&rdquo;
             </motion.blockquote>
-          ))}
+          </AnimatePresence>
+
+          <div className="mt-14 flex items-center justify-center gap-5">
+            <span
+              aria-hidden
+              className="flex h-16 w-16 items-center justify-center rounded-full font-display text-lg uppercase tracking-wider text-navy"
+              style={{ background: active.avatarBg }}
+            >
+              {active.initials}
+            </span>
+            <div className="text-left">
+              <p className="font-display text-lg uppercase tracking-widest text-white">
+                {active.name}
+              </p>
+              <p className="label text-taupe">{active.role}</p>
+            </div>
+          </div>
+
+          {/* Dots */}
+          <div className="mt-12 flex items-center justify-center gap-3">
+            {stories.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIndex(i)}
+                aria-label={`Show story ${i + 1}`}
+                aria-current={i === index}
+                className={`h-px w-10 transition-colors duration-700 ease-cinema ${
+                  i === index ? "bg-white" : "bg-white/20"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
