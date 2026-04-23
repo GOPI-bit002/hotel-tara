@@ -1,4 +1,7 @@
-"use client";
+'use client'
+
+import Link from 'next/link'
+// rest of your code...
 
 import { useEffect } from "react";
 import { site } from "@/lib/site";
